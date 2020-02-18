@@ -1,9 +1,9 @@
 import React from "react";
 import axios from "axios";
-// import MainImage from "./MainImage.jsx";
+import MainImage from "./MainImage.jsx";
 import Image from "./Image.jsx";
-// const baseURL =
-//   "http://mainimage-env.atbwqah4uj.us-east-2.elasticbeanstalk.com/";
+const baseURL =
+  "http://mainimage-env.atbwqah4uj.us-east-2.elasticbeanstalk.com/";
 
 class App extends React.Component {
   constructor(props) {
@@ -29,18 +29,15 @@ class App extends React.Component {
     });
   }
   getImages() {
-    let randy = Math.floor(Math.random()*100)
     axios
-      .get(`/listing/${randy}`)
-      /*
-      , {
+      .get(`/listing/${this.state.listingId}`, {
         baseURL
-      }*/
+      })
       .then(data => {
         this.setState(
-          { images: data.data, mainImg: data.data[0] },
+          { images: data.data, mainImg: data.data[0].image_url },
           () => {
-            console.log("UNDEFINED HERE", this.state.images[0]);
+            console.log(this.state.images[0].image_url);
           }
         );
       });
@@ -50,7 +47,7 @@ class App extends React.Component {
     if (!this.state.images[this.state.currentIndex + 1]) return;
     this.setState({
       currentIndex: index + 1,
-      mainImg: this.state.images[this.state.currentIndex + 1]
+      mainImg: this.state.images[this.state.currentIndex + 1].image_url
     });
   }
 
@@ -58,7 +55,7 @@ class App extends React.Component {
     if (!this.state.images[this.state.currentIndex - 1]) return;
     this.setState({
       currentIndex: index - 1,
-      mainImg: this.state.images[this.state.currentIndex - 1]
+      mainImg: this.state.images[this.state.currentIndex - 1].image_url
     });
   }
 
@@ -160,7 +157,7 @@ class App extends React.Component {
                 }
                 key={index}
                 index={index}
-                // image_url={image.image_url}
+                image_url={image.image_url}
                 handleClick={this.handleClick}
                 handleHoverOver={this.handleHoverOver}
               />
